@@ -74,14 +74,14 @@ export default function App() {
     if (data?.length > 0) setJugadorSel(data[0])
   }
 
-  async function cargarEventos(partidoId) {
+ async function cargarEventos(partidoId) {
     const { data: local } = await supabase.from("acta_eventos").select("*").eq("partido_id", partidoId).eq("equipo", "local")
     setEventos(local || [])
     const { data: rivalData } = await supabase.from("acta_eventos").select("*").eq("partido_id", partidoId).eq("equipo", "rival")
     setEventosRival(rivalData || [])
     const { data: jRival } = await supabase.from("jugadores_rivales").select("*").eq("partido_id", partidoId)
     setJugadoresRival(jRival || [])
-    if (jRival?.length > 0) setJugadorRivalSel(jRival[0])
+    if (jRival?.length > 0 && !jugadorRivalSel) setJugadorRivalSel(jRival[0])
   }
 
   async function iniciarPartido() {
